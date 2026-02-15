@@ -1,0 +1,37 @@
+<mujoco model="gyroscopic_rotor_fixed_pivot">
+  <compiler angle="degree"/>
+  <option gravity="0 0 -9.81" timestep="0.001" integrator="RK4"/>
+
+  <asset>
+    <material name="metal" rgba="0.72 0.72 0.74 1"/>
+  </asset>
+
+  <worldbody>
+    <light pos="1.2 -1.0 2.0" dir="-1 1 -1" diffuse="0.9 0.9 0.9"/>
+    <camera name="cam_oblique" pos="1.4 -1.1 1.0" xyaxes="0.62 0.78 0.00 -0.30 0.24 0.92"/>
+    <camera name="cam_top" pos="0 0 2.8" xyaxes="1 0 0 0 1 0"/>
+
+    <body name="rotor" pos="0 0 0">
+      <joint name="pivot" type="ball" damping="0"/>
+
+      <!--
+        Parameters for ODE comparison:
+        - diaginertia here is COM-based inertia (I1_com, I1_com, I3_com)
+        - compare script converts to pivot-based transverse inertia with
+          I1_pivot = I1_com + m*l^2 for fixed-pivot equations.
+      -->
+      <inertial pos="0 0 0.20" mass="1.0" diaginertia="0.02 0.02 0.01"/>
+
+      <!-- Visual-only geometry -->
+      <geom name="pivot_tip" type="sphere" pos="0 0 0" size="0.014" mass="0" rgba="0.1 0.1 0.1 1"/>
+      <geom name="shaft" type="cylinder" pos="0 0 0.16" size="0.015 0.16" mass="0" material="metal"/>
+      <geom name="rotor_disk" type="cylinder" pos="0 0 0.23" size="0.14 0.012" mass="0" rgba="0.25 0.25 0.28 1"/>
+      <geom name="axis_marker" type="capsule" fromto="0 0 0 0 0 0.42" size="0.004" mass="0" rgba="1.0 0.85 0.1 1"/>
+
+      <geom name="stripe_x" type="capsule" fromto="-0.14 0 0.23 0.14 0 0.23" size="0.006" mass="0" rgba="0.95 0.2 0.2 1"/>
+      <geom name="stripe_y" type="capsule" fromto="0 -0.14 0.23 0 0.14 0.23" size="0.006" mass="0" rgba="0.2 0.65 0.95 1"/>
+      <geom name="stripe_d1" type="capsule" fromto="-0.10 -0.10 0.23 0.10 0.10 0.23" size="0.005" mass="0" rgba="0.95 0.95 0.95 1"/>
+      <geom name="stripe_d2" type="capsule" fromto="-0.10 0.10 0.23 0.10 -0.10 0.23" size="0.005" mass="0" rgba="0.1 0.1 0.1 1"/>
+    </body>
+  </worldbody>
+</mujoco>

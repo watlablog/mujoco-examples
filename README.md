@@ -48,15 +48,36 @@ For details, see each example document under `src/examples/<example_name>/Exampl
 
 Direct link: [1DOF Spring-Mass-Damper Guide](src/examples/1dof_spring_mass/Example_1DOF_Spring-Mass-Damper.md)
 
+### Gyroscopic Rotor Precession
+
+- Path: `src/examples/gyroscopic_rotor/`
+- Detailed doc: [`src/examples/gyroscopic_rotor/Example_Gyroscopic-Rotor-Precession.md`](src/examples/gyroscopic_rotor/Example_Gyroscopic-Rotor-Precession.md)
+- Scope in this phase:
+  - MJCF modeling for gyroscopic precession/whirl
+  - GIF video generation with dual-view rendering
+  - Fixed-pivot comparison mode (`theta(t)` and `phi(t)`) with `solve_ivp`
+
+Direct link: [Gyroscopic Rotor Precession Guide](src/examples/gyroscopic_rotor/Example_Gyroscopic-Rotor-Precession.md)
+
 ## Outputs
 
-### Animation (GIF)
+### 1DOF Spring-Mass-Damper Animation (GIF)
 
 ![animation](src/examples/1dof_spring_mass/animation.gif)
 
 ### Theory vs MuJoCo
 
 ![theory-vs-mujoco](src/examples/1dof_spring_mass/theory_vs_mujoco.png)
+
+### Gyroscopic Rotor Precession Animation (GIF)
+
+![gyroscopic-rotor-animation](src/examples/gyroscopic_rotor/animation.gif)
+
+Detailed document: [Gyroscopic Rotor Precession Guide](src/examples/gyroscopic_rotor/Example_Gyroscopic-Rotor-Precession.md)
+
+### Gyroscopic Rotor Comparison Plot
+
+![gyroscopic-rotor-comparison](src/examples/gyroscopic_rotor/comparison_plot.png)
 
 ## Notes
 
