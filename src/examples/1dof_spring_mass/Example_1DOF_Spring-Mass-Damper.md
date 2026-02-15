@@ -1,35 +1,35 @@
 # 1DOF Spring-Mass-Damper Example
 
-## 目的
+## Purpose
 
-この例題では、1自由度ばね・ダンパ系をMuJoCoでシミュレーションし、理論解と比較します。  
-以下の3つを同時に確認できます。
+This example simulates a 1DOF spring-mass-damper system in MuJoCo and compares the result with an analytical solution.  
+You can inspect all of the following at once:
 
-- 時系列シミュレーション
-- アニメーションGIF
-- 理論値とMuJoCo値の重ね描きプロット
+- Time-series simulation
+- Animation GIF
+- Overlaid MuJoCo and theory displacement plot
 
-## モデル設定
+## Model Parameters
 
-本例題のパラメータは以下です。
+The parameters in this example are:
 
 - `m = 1.0` kg
 - `k = 20.0` N/m
-- `c = 0.5` N·s/m
-- 初期変位 `X0 = 1.0` m
-- 初期速度 `V0 = 0.0` m/s
+- `c = 0.5` N*s/m
+- Initial displacement `X0 = 1.0` m
+- Initial velocity `V0 = 0.0` m/s
 
-## モデルのジョイント関係
+## Joint Structure
 
-このモデルは、`world`に対して質点ボディ`mass`を1つだけ持つ最小構成です。  
-`mass`ボディにはスライダジョイント`x`があり、x軸方向にのみ並進します。
+This model uses a minimal setup with one body named `mass` attached to `world`.  
+The `mass` body has a slider joint `x` and can translate only along the x-axis.
 
-- 親子関係: `world` -> `body(name="mass")`
-- 関節: `joint(name="x", type="slide", axis="1 0 0")`
-- 復元力と減衰: `stiffness="20"`, `damping="0.5"`
-- 質量: `geom(type="sphere", mass="1")`
+- Parent-child: `world` -> `body(name="mass")`
+- Joint: `joint(name="x", type="slide", axis="1 0 0")`
+- Restoring force and damping: `stiffness="20"`, `damping="0.5"`
+- Mass: `geom(type="sphere", mass="1")`
 
-つまり、自由度は1つ（x方向変位）で、ばね・ダンパ付きの1自由度振動系として動作します。
+So the system has exactly one degree of freedom (x displacement), behaving as a 1DOF spring-mass-damper oscillator.
 
 ## MJCF (oscillator.xml)
 
@@ -47,13 +47,13 @@
 </mujoco>
 ```
 
-## 運動方程式
+## Equation of Motion
 
 $$
 m\ddot{x}(t) + c\dot{x}(t) + kx(t) = 0
 $$
 
-## 定義量
+## Definitions
 
 $$
 \omega_n = \sqrt{\frac{k}{m}}
@@ -67,9 +67,9 @@ $$
 \omega_d = \omega_n\sqrt{1-\zeta^2}
 $$
 
-## 理論式（実装で比較に使う形）
+## Analytical Forms Used in Code
 
-以下は `calc_theory_displacement()` で用いる形です。
+The following forms are used in `calc_theory_displacement()`.
 
 $$
 x(0)=X_0,\quad \dot{x}(0)=V_0
@@ -79,7 +79,7 @@ $$
 n_v=\frac{V_0}{X_0\omega_n}
 $$
 
-### 不足減衰
+### Underdamped
 
 $$
 \zeta<1,\quad
@@ -91,14 +91,14 @@ X=\sqrt{X_0^2+\left(\frac{V_0+\sigma X_0}{\omega_d}\right)^2},\quad
 \phi=\arctan\!\left(\frac{V_0+\sigma X_0}{X_0\omega_d}\right)
 $$
 
-### 臨界減衰
+### Critically Damped
 
 $$
 \zeta=1,\quad
 x(t)=X_0e^{-\omega_n t}\left((n_v+1)\omega_n t+1\right)
 $$
 
-### 過減衰
+### Overdamped
 
 $$
 \zeta>1,\quad
@@ -109,56 +109,56 @@ x(t)=X_0e^{-\zeta\omega_n t}\left[
 \right]
 $$
 
-## 解の分類
+## Damping Regimes
 
-### 不足減衰
+### Underdamped
 
 $$
 \zeta < 1
 $$
 
-### 臨界減衰
+### Critically Damped
 
 $$
 \zeta = 1
 $$
 
-### 過減衰
+### Overdamped
 
 $$
 \zeta > 1
 $$
 
-## 実装との対応
+## Mapping to Implementation
 
-理論解計算は `mujoco_1dof_sim.py` の `calc_theory_displacement()` で行います。
+The analytical solution is computed in `calc_theory_displacement()` inside `mujoco_1dof_sim.py`.
 
-- `t_log`: シミュレーション時刻配列
-- `x_log`: MuJoCoの変位ログ
-- `theory`: 理論式から計算した変位
+- `t_log`: simulation time array
+- `x_log`: MuJoCo displacement log
+- `theory`: displacement computed from analytical equations
 
-分岐は以下に対応します。
+The code branches match:
 
-- `zeta < 1`: 不足減衰の式
-- `np.isclose(zeta, 1.0)`: 臨界減衰の式
-- それ以外: 過減衰の式
+- `zeta < 1`: underdamped equation
+- `np.isclose(zeta, 1.0)`: critically damped equation
+- otherwise: overdamped equation
 
-比較プロットは `save_comparison_plot()` で保存し、最後に表示します。
+The comparison plot is saved in `save_comparison_plot()` and shown at the end.
 
-## 実行方法
+## How to Run
 
 ```bash
 cd src/examples/1dof_spring_mass
 ../../../venv/bin/python mujoco_1dof_sim.py
 ```
 
-## 生成物
+## Generated Files
 
-- `animation.gif`: MuJoCoレンダリングのアニメーション
-- `theory_vs_mujoco.png`: 理論値とMuJoCo値の比較図
-- `img/*.png`: GIF生成用の連番フレーム
+- `animation.gif`: MuJoCo-rendered animation
+- `theory_vs_mujoco.png`: theory vs MuJoCo comparison plot
+- `img/*.png`: frame sequence used to build the GIF
 
-## 出力例
+## Output Preview
 
 ### Animation
 
@@ -168,17 +168,17 @@ cd src/examples/1dof_spring_mass
 
 ![theory-vs-mujoco](theory_vs_mujoco.png)
 
-## 結果の見方
+## How to Read the Result
 
-- 減衰によって時間とともに振幅が小さくなること
-- MuJoCo計算値と理論値の波形が概ね一致すること
-- 初期条件を変えると位相や振幅の推移が変わること
+- The oscillation amplitude decays over time due to damping.
+- MuJoCo and analytical waveforms should largely agree.
+- Changing initial conditions shifts phase and amplitude evolution.
 
-## 補足
+## Notes
 
-- GitHub上の数式表示崩れを避けるため、数式は見出しや入れ子リストに入れず独立ブロックで記述しています。
-- 環境によっては描画バックエンドの制約で実行時にレンダラ初期化エラーが出る場合があります。
+- To avoid GitHub math rendering issues, equations are written as standalone blocks, not inside headings or nested lists.
+- Depending on your environment, renderer initialization can fail due to graphics backend constraints.
 
 ---
 
-戻る: [表紙 README](../../../README.md)
+Back to: [Main README](../../../README.md)
