@@ -103,6 +103,8 @@ Detailed document: [Gyroscopic Rotor Precession Guide](src/examples/gyroscopic_r
 
 ![double-pendulum-overlay](src/examples/double_pendulum/comparison_overlay.gif)
 
+Detailed document: [Double Pendulum Chaos Guide](src/examples/double_pendulum/Example_Double-Pendulum-Chaos.md)
+
 Direct assets:
 - [Double Pendulum MuJoCo GIF](src/examples/double_pendulum/animation.gif)
 - [Double Pendulum Overlay GIF](src/examples/double_pendulum/comparison_overlay.gif)
