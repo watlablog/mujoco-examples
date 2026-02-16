@@ -14,7 +14,7 @@ source venv/bin/activate
 ### 2. Install dependencies
 
 ```bash
-pip install mujoco pillow numpy matplotlib
+pip install -r requirements.txt
 ```
 
 ### 3. Run the example
@@ -59,6 +59,18 @@ Direct link: [1DOF Spring-Mass-Damper Guide](src/examples/1dof_spring_mass/Examp
 
 Direct link: [Gyroscopic Rotor Precession Guide](src/examples/gyroscopic_rotor/Example_Gyroscopic-Rotor-Precession.md)
 
+### Double Pendulum Chaos
+
+- Path: `src/examples/double_pendulum/`
+- Detailed doc: [`src/examples/double_pendulum/Example_Double-Pendulum-Chaos.md`](src/examples/double_pendulum/Example_Double-Pendulum-Chaos.md)
+- Scope in this phase:
+  - MuJoCo-only pendulum GIF
+  - MuJoCo vs `solve_ivp` overlay in position space (GIF)
+  - MuJoCo vs `solve_ivp` time-series comparison (PNG)
+  - Time-series comparison (`q1`, `q2`)
+
+Direct link: [Double Pendulum Chaos Guide](src/examples/double_pendulum/Example_Double-Pendulum-Chaos.md)
+
 ## Outputs
 
 ### 1DOF Spring-Mass-Damper Animation (GIF)
@@ -78,6 +90,23 @@ Detailed document: [Gyroscopic Rotor Precession Guide](src/examples/gyroscopic_r
 ### Gyroscopic Rotor Comparison Plot
 
 ![gyroscopic-rotor-comparison](src/examples/gyroscopic_rotor/comparison_plot.png)
+
+### Double Pendulum Animation (GIF)
+
+![double-pendulum-animation](src/examples/double_pendulum/animation.gif)
+
+### Double Pendulum Comparison Plot
+
+![double-pendulum-plot](src/examples/double_pendulum/comparison_plot.png)
+
+### Double Pendulum Overlay Animation (GIF)
+
+![double-pendulum-overlay](src/examples/double_pendulum/comparison_overlay.gif)
+
+Direct assets:
+- [Double Pendulum MuJoCo GIF](src/examples/double_pendulum/animation.gif)
+- [Double Pendulum Overlay GIF](src/examples/double_pendulum/comparison_overlay.gif)
+- [Double Pendulum Comparison Plot](src/examples/double_pendulum/comparison_plot.png)
 
 ## Notes
 
