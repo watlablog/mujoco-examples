@@ -285,11 +285,6 @@ def save_overlay_animation(t, q_mj, q_ode):
         # Pivot
         ax.plot(0.0, 0.0, "ko", ms=6)
 
-        # Trajectory tails for second bob
-        k0 = max(0, i - 80)
-        ax.plot(x2_mj[k0:i + 1], z2_mj[k0:i + 1], color="tab:orange", alpha=0.35, lw=1.5)
-        ax.plot(x2_ode[k0:i + 1], z2_ode[k0:i + 1], color="tab:red", alpha=0.35, lw=1.5, ls="--")
-
         # MuJoCo links and masses
         ax.plot([0, x1_mj[i]], [0, z1_mj[i]], color="tab:blue", lw=2.8, label="MuJoCo link1")
         ax.plot([x1_mj[i], x2_mj[i]], [z1_mj[i], z2_mj[i]], color="tab:orange", lw=2.8, label="MuJoCo link2")
